@@ -1,0 +1,30 @@
+public:
+	//Function to return list containing vertices in Topological order. 
+	stack<int> st;
+	vector<int> bfs(vector<int> adj[], vector<int>& indegree){
+	    queue<int> q;
+	    vector<int> res;
+	    for(int i=0;i<indegree.size();i++) if(indegree[i]==0)q.push(i);
+	    
+	    while(!q.empty()){
+	        int node = q.front();
+	        res.push_back(node);
+	        q.pop();
+	        for(auto &it: adj[node]){
+	            indegree[it]-=1;
+	            if(indegree[it]==0)q.push(it);
+	        }
+	    }
+	    return res;
+	}
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // code here
+	     vector<int> indegree(V,0);
+	    for(int i=0;i<V;i++){
+	        for(auto &it: adj[i])indegree[it]++;
+	    }
+
+	    vector<int> res = bfs(adj,indegree);
+	    return res;
+	}
